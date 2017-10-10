@@ -63,24 +63,18 @@ let thirdDinosaurJSON = () => {
 	});
 };
 
-// 3rd one we did:
 let dinoGetter = () => {
-	firstDinosaurJSON().then(function(results1){
-		results1.forEach(function(dino){
-			dinosaurs.push(dino);
-		});
-		return secondDinosaurJSON();
-	}).then(function(results2){
-		results2.forEach(function(dino) {
+	Promise.all([firstDinosaurJSON(), secondDinosaurJSON(), thirdDinosaurJSON()]).then(function(results){
+		console.log("results from promise.all", results);
+		results.forEach(function(results){
+			results.forEach(function(dino){
+				console.log(dino);
 				dinosaurs.push(dino);
+			});
 		});
-		return thirdDinosaurJSON();
-	}).then(function(results3){
-		results3.forEach(function(dino) {
-			dinosaurs.push(dino);
-		});
-		console.log("dinosaurs", dinosaurs);
 		makeDinos();
+	}).catch(function(error){
+		console.log("error from Promise.all", error);
 	});
 };
 
@@ -89,6 +83,33 @@ let makeDinos = () => {
 		dom(dino);
 	});
 };
+
+// // 3rd one we did: best way to do it for order dependent data load (dino data is independent of each other and doesn't require this method)
+// let dinoGetter = () => {
+// 	firstDinosaurJSON().then(function(results1){
+// 		results1.forEach(function(dino){
+// 			dinosaurs.push(dino);
+// 		});
+// 		return secondDinosaurJSON();
+// 	}).then(function(results2){
+// 		results2.forEach(function(dino) {
+// 				dinosaurs.push(dino);
+// 		});
+// 		return thirdDinosaurJSON();
+// 	}).then(function(results3){
+// 		results3.forEach(function(dino) {
+// 			dinosaurs.push(dino);
+// 		});
+// 		console.log("dinosaurs", dinosaurs);
+// 		makeDinos();
+// 	});
+// };
+
+// let makeDinos = () => {
+// 	dinosaurs.forEach(function(dino){
+// 		dom(dino);
+// 	});
+// };
 
 
 // 2nd one we did:
