@@ -1,10 +1,8 @@
 "use strict";
 
-const outputDiv = $('#dinosaurs');
+const outputDiv = $('#dinosaur');
 
 const domString = (dinosaur) => {
-	console.log("in domString:",dinosaur);
-
 	let domStrang = '';
 		domStrang += `<div class=${dinosaur.info === 'Carnivore' ? 'card-bad' : 'card-good'}>`;
 		domStrang += 	`<h1>${dinosaur.type}</h1>`;
@@ -27,7 +25,6 @@ const domString = (dinosaur) => {
 		domStrang += `</div>`;
 		domStrang += `</div>`;
 	printToDom(domStrang);
-	console.log("in domString:",domStrang);
 };
 
 const printToDom = (strang) => {
