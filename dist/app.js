@@ -66,24 +66,18 @@ let dinoGetter = () => {
 				});			
 			});
 			// allTheCats().then((results) => {
-				// console.log("cat results", results);
+			//console.log("cat results", results);
+			makeDinos();
 		});
-
-		//console.log("dino", dinosaurs);
-		makeDinos();
 	}).catch(function(error){
 		console.log("error from Promise.all", error);
 	});
 };
 
 let makeDinos = () => {
-	console.log("in makeDinos - begining:", dinosaurs);
-	console.log("in makeDinos - dinosaurs.length:", dinosaurs.length);
 	dinosaurs.forEach(function(dinos){
-		dom.domStrang(dinos);
-		console.log("in makeDinos:");
+		dom.domString(dinos);
 	});
-	console.log("in makeDinos - end:");
 };
 
 
@@ -100,11 +94,9 @@ module.exports = {initializer:initializer, getDinosaurs:getDinosaurs};
 },{"./dom":2}],2:[function(require,module,exports){
 "use strict";
 
-const outputDiv = $('#dinosaurs');
+const outputDiv = $('#dinosaur');
 
 const domString = (dinosaur) => {
-	console.log("in domString:",dinosaur);
-
 	let domStrang = '';
 		domStrang += `<div class=${dinosaur.info === 'Carnivore' ? 'card-bad' : 'card-good'}>`;
 		domStrang += 	`<h1>${dinosaur.type}</h1>`;
@@ -127,7 +119,6 @@ const domString = (dinosaur) => {
 		domStrang += `</div>`;
 		domStrang += `</div>`;
 	printToDom(domStrang);
-	console.log("in domString:",domStrang);
 };
 
 const printToDom = (strang) => {
