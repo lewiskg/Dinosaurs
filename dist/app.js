@@ -5,35 +5,6 @@ const dom = require("./dom");
 
 let dinosaurs = [];
 
-
-// // Old way - Pyramid of DOOM
-// let dinoGetter = () => {
-// 	$.ajax("./db/dinosaurs1.json").done(function(data1){
-// 		console.log("data1", data1);
-// 		data1.dinosaurs1.forEach(function(dino){
-// 			dinosaurs.push(dino);
-// 		});
-// 		$.ajax("./db/dinosaurs2.json").done(function(data2){
-// 			console.log("data2", data1);
-// 			data2.dinosaurs2.forEach(function(dino){
-// 			dinosaurs.push(dino);
-// 			});
-// 			$.ajax("./db/dinosaurs3.json").done(function(data3){
-// 				console.log("data2", data1);
-// 				data3.dinosaurs3.forEach(function(dino){
-// 				dinosaurs.push(dino);
-// 				});
-// 			console.log("dinosaurs array", dinosaurs);
-// 			});
-// 		});
-// 	});
-// };
-
-
-// const initializer = () => {
-// 	dom({name: 'T-rex'});
-// };
-
 let firstDinosaurJSON = () => {
 	return new Promise(function(resolve, reject) {
 		$.ajax('./db/dinosaurs1.json').done(function(data1){
@@ -64,15 +35,41 @@ let thirdDinosaurJSON = () => {
 	});
 };
 
+let allTheCats = () => {
+	return new Promise(function(resolve, reject) {
+		$.ajax('./db/cats.json').done(function(data4){
+			resolve(data4.cats);
+		}).fail(function(error4){
+			reject(error4);
+		});
+	});
+};
+
 let dinoGetter = () => {
 	Promise.all([firstDinosaurJSON(), secondDinosaurJSON(), thirdDinosaurJSON()]).then(function(results){
-		console.log("results from promise.all", results);
-		results.forEach(function(results){
-			results.forEach(function(dino){
-				console.log(dino);
-				dinosaurs.push(dino);
+		allTheCats().then((cats) => {
+			// console.log("results from promise.all", results);
+			results.forEach(function(results){
+				results.forEach(function(dino){
+					// console.log(dino);
+					dino.snacks = [];
+					dino.catIds.forEach((catId) => {
+						// console.log("catId", catId);
+						cats.forEach((cat) =>{
+							if(cat.id === catId){
+								dino.snacks.push(cat);
+							}
+						});
+					});
+					// console.log(dino);
+					dinosaurs.push(dino);
+				});			
 			});
+			// allTheCats().then((results) => {
+				// console.log("cat results", results);
 		});
+
+		console.log("dino", dinosaurs);
 		makeDinos();
 	}).catch(function(error){
 		console.log("error from Promise.all", error);
@@ -85,65 +82,6 @@ let makeDinos = () => {
 	});
 };
 
-// // 3rd one we did: best way to do it for order dependent data load (dino data is independent of each other and doesn't require this method)
-// let dinoGetter = () => {
-// 	firstDinosaurJSON().then(function(results1){
-// 		results1.forEach(function(dino){
-// 			dinosaurs.push(dino);
-// 		});
-// 		return secondDinosaurJSON();
-// 	}).then(function(results2){
-// 		results2.forEach(function(dino) {
-// 				dinosaurs.push(dino);
-// 		});
-// 		return thirdDinosaurJSON();
-// 	}).then(function(results3){
-// 		results3.forEach(function(dino) {
-// 			dinosaurs.push(dino);
-// 		});
-// 		console.log("dinosaurs", dinosaurs);
-// 		makeDinos();
-// 	});
-// };
-
-// let makeDinos = () => {
-// 	dinosaurs.forEach(function(dino){
-// 		dom(dino);
-// 	});
-// };
-
-
-// 2nd one we did:
-// // PROMISE WORKS - PROMISE PYRAMID OF DOOM
-// let dinoGetter = () => {
-// 	firstDinosaurJSON().then(function(results1){
-// 		results1.forEach(function(dino) {
-// 			dinosaurs.push(dino);
-// 		});
-// 		secondDinosaurJSON().then(function(results2){
-// 			results2.forEach(function(dino) {
-// 				dinosaurs.push(dino);
-// 			});
-// 		});
-// 		thirdDinosaurJSON().then(function(results3){
-// 			results3.forEach(function(dino) {
-// 				dinosaurs.push(dino);
-// 			});
-// 		console.log("results from dino",dinosaurs);	
-// 		});
-// 	}).catch(function(error){
-// 			console.log("error from dino1", error);
-// 	});	
-// };
-
-// 1st one we did:
-// let dinoGetter = () => {
-// 	firstDinosaurJSON().then(function(results){
-// 		console.log("results from dino1 ",results);
-// 	}).catch(function(error){
-// 		console.log("error from dino1 ", error);
-// 	});
-// };
 
 const initializer = () => {
 	dinoGetter();
