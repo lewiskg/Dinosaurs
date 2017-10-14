@@ -69,7 +69,7 @@ let dinoGetter = () => {
 				// console.log("cat results", results);
 		});
 
-		console.log("dino", dinosaurs);
+		//console.log("dino", dinosaurs);
 		makeDinos();
 	}).catch(function(error){
 		console.log("error from Promise.all", error);
@@ -77,9 +77,13 @@ let dinoGetter = () => {
 };
 
 let makeDinos = () => {
-	dinosaurs.forEach(function(dino){
-		dom(dino);
+	console.log("in makeDinos - begining:", dinosaurs);
+	console.log("in makeDinos - dinosaurs.length:", dinosaurs.length);
+	dinosaurs.forEach(function(dinos){
+		dom.domStrang(dinos);
+		console.log("in makeDinos:");
 	});
+	console.log("in makeDinos - end:");
 };
 
 
@@ -96,12 +100,41 @@ module.exports = {initializer:initializer, getDinosaurs:getDinosaurs};
 },{"./dom":2}],2:[function(require,module,exports){
 "use strict";
 
+const outputDiv = $('#dinosaurs');
+
 const domString = (dinosaur) => {
-	$('#dinosaur').append(`<h1>${dinosaur.type}</h1>`);
+	console.log("in domString:",dinosaur);
+
+	let domStrang = '';
+		domStrang += `<div class=${dinosaur.info === 'Carnivore' ? 'card-bad' : 'card-good'}>`;
+		domStrang += 	`<h1>${dinosaur.type}</h1>`;
+		domStrang += 	`<h4>${dinosaur.bio}</h14>`;
+		if (dinosaur.info ==='Carnivore') {
+			domStrang += `<h4> Has some tasty snacks.</h4>`;
+		} else {
+			domStrang += `<h4>Has some adorable (debatable) friends.</h4>`;
+		}
+		domStrang += `<div class="card-holder">`;
+		dinosaur.snacks.forEach((cat) => {
+			domStrang += `<div class="card">`;
+			domStrang += `<h5>$cat.name}</h5>`;
+			domStrang += `<div class="card-img">`;
+			domStrang += `<img src="${cat.imageUrl}>">`;
+			domStrang += `</div>`;
+			domStrang += `<p class="card-description">${cat.specialSkill}</p>`;
+			domStrang += `</div>`;
+		});
+		domStrang += `</div>`;
+		domStrang += `</div>`;
+	printToDom(domStrang);
+	console.log("in domString:",domStrang);
 };
 
+const printToDom = (strang) => {
+	outputDiv.append(strang);
+};
 
-module.exports = domString; 
+module.exports = {domString:domString}; 
 },{}],3:[function(require,module,exports){
 "use strict";
 

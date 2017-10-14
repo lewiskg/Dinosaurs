@@ -68,7 +68,7 @@ let dinoGetter = () => {
 				// console.log("cat results", results);
 		});
 
-		console.log("dino", dinosaurs);
+		//console.log("dino", dinosaurs);
 		makeDinos();
 	}).catch(function(error){
 		console.log("error from Promise.all", error);
@@ -76,9 +76,13 @@ let dinoGetter = () => {
 };
 
 let makeDinos = () => {
-	dinosaurs.forEach(function(dino){
-		dom(dino);
+	console.log("in makeDinos - begining:", dinosaurs);
+	console.log("in makeDinos - dinosaurs.length:", dinosaurs.length);
+	dinosaurs.forEach(function(dinos){
+		dom.domStrang(dinos);
+		console.log("in makeDinos:");
 	});
+	console.log("in makeDinos - end:");
 };
 
 
